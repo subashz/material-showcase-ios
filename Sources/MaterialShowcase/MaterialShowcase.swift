@@ -102,7 +102,15 @@ open class MaterialShowcase: UIView {
     @objc public var shouldSetTintColor: Bool = true
     @objc public var targetTintColor: UIColor!
     @objc public var targetHolderColor: UIColor!
-    @objc public var targetHolderInitialScale: CGFloat = 1.0
+    @objc public var targetHolderOffset: CGFloat = 1.0
+    var targetHolderXScale: CGFloat {
+        1 + ((targetHolderOffset * 2) / (targetView?.bounds.width ?? 1.0))
+    }
+    var targetHolderYScale: CGFloat {
+        1 + ((targetHolderOffset * 2) / (targetView?.bounds.height ?? 1.0))
+    }
+    
+//    @objc public var targetHolderInitialScale: CGFloat = 1.0
     public var targetHolderStyle: TargetHolderStyle = .circle(radius: 0.0)
     internal var targetHolderRadius: CGFloat {
         switch targetHolderStyle {
@@ -129,7 +137,13 @@ open class MaterialShowcase: UIView {
     @objc public var aniRippleScale: CGFloat = 0.0
     @objc public var aniRippleColor: UIColor!
     @objc public var aniRippleAlpha: CGFloat = 0.0
-    @objc public var aniRippleInitialScale: CGFloat = 1.0
+    @objc public var aniRippleOffset: CGFloat = 10
+    var aniRippleXScale: CGFloat {
+        1 + ((aniRippleOffset * 2) / (targetView?.bounds.width ?? 1.0))
+    }
+    var aniRippleYScale: CGFloat {
+        1 + ((aniRippleOffset * 2) / (targetView?.bounds.height ?? 1.0))
+    }
   
     public init() {
         // Create frame
@@ -354,14 +368,32 @@ extension MaterialShowcase {
         UIView.animateKeyframes(withDuration: 1, delay: 0, options: options, animations: {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
                 self.targetRippleView.alpha = self.ANI_RIPPLE_ALPHA
-                self.targetHolderView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-                self.targetRippleView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+                switch self.targetHolderStyle {
+                case .circle:
+                    self.targetHolderView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+                    self.targetRippleView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+                default:
+                    self.targetHolderView.transform = CGAffineTransform(
+                        scaleX: self.targetHolderXScale,
+                        y: self.targetHolderYScale)
+                    self.targetRippleView.transform = CGAffineTransform(
+                        scaleX: self.aniRippleXScale,
+                        y: self.aniRippleYScale)
+                }
+
             })
 
             UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {
                 self.targetHolderView.transform = CGAffineTransform.identity
                 self.targetRippleView.alpha = 0
-                self.targetRippleView.transform = CGAffineTransform(scaleX: self.aniRippleScale, y: self.aniRippleScale)
+                switch self.targetHolderStyle {
+                case .circle:
+                        self.targetRippleView.transform = CGAffineTransform(scaleX: self.aniRippleScale, y: self.aniRippleScale)
+                default:
+                    self.targetRippleView.transform = CGAffineTransform(
+                        scaleX: self.aniRippleXScale * self.aniRippleScale,
+                        y: self.aniRippleYScale * self.aniRippleScale)
+                }
             })
         }, completion: nil)
     }
@@ -445,10 +477,18 @@ extension MaterialShowcase {
         case .circle(let radius):
             mutablePath.addArc(center: center, radius: radius, startAngle: 0.0, endAngle: 2 * .pi, clockwise: false)
         case .roundedRect(let radius):
-            let rect = targetView.convert(targetView.bounds, to: view)
-            mutablePath.addRoundedRect(in: rect, cornerWidth: radius, cornerHeight: radius)
+            var rect = targetView.convert(targetView.bounds, to: view)
+            rect.origin.x -= targetHolderOffset
+            rect.origin.y -= targetHolderOffset
+            rect.size.width *= targetHolderXScale
+            rect.size.height *= targetHolderYScale
+            mutablePath.addRoundedRect(in: rect, cornerWidth: radius * targetHolderXScale, cornerHeight: radius * targetHolderYScale)
         case .rect:
-            let rect = targetView.convert(targetView.bounds, to: view)
+            var rect = targetView.convert(targetView.bounds, to: view)
+            rect.origin.x -= targetHolderOffset
+            rect.origin.y -= targetHolderOffset
+            rect.size.width *= targetHolderXScale
+            rect.size.height *= targetHolderYScale
             mutablePath.addRect(rect)
         }
 
@@ -461,14 +501,15 @@ extension MaterialShowcase {
   
     /// A background view which add ripple animation when showing target view
     private func addTargetRipple(at center: CGPoint) {
-        var rect: CGRect
+        let rect: CGRect
         switch targetHolderStyle {
         case .circle(let radius):
             rect = CGRect(x: 0, y: 0, width: radius * 2, height: radius * 2)
         default:
-            rect = CGRect(x: 0, y: 0, width: targetView.bounds.width, height: targetView.bounds.height)
+            rect = CGRect(x: 0, y: 0,
+                          width: targetView.bounds.width + aniRippleOffset,
+                          height: targetView.bounds.height + aniRippleOffset)
         }
-        rect = rect.applying(.init(scaleX: aniRippleInitialScale, y: aniRippleInitialScale))
         
         targetRippleView = UIView(frame: rect)
         targetRippleView.center = center
@@ -478,7 +519,8 @@ extension MaterialShowcase {
         case .circle:
             targetRippleView.asCircle()
         case .roundedRect(let radius):
-            targetRippleView.setCornerRadius(radius * aniRippleInitialScale)
+            let scale = min(aniRippleXScale, aniRippleYScale)
+            targetRippleView.setCornerRadius(radius * scale)
         default:
             break
         }
@@ -489,14 +531,15 @@ extension MaterialShowcase {
     private func addTargetHolder(at center: CGPoint) {
         hiddenTargetHolderView = UIView()
         hiddenTargetHolderView.backgroundColor = .clear
-        var rect: CGRect
+        let rect: CGRect
         switch targetHolderStyle {
         case .circle(let radius):
             rect = CGRect(x: 0, y: 0, width: radius * 2, height: radius * 2)
         default:
-            rect = CGRect(x: 0, y: 0, width: targetView.bounds.width, height: targetView.bounds.height)
+            rect = CGRect(x: 0, y: 0,
+                          width: targetView.bounds.width + targetHolderOffset * 2,
+                          height: targetView.bounds.height + targetHolderOffset * 2)
         }
-        rect = rect.applying(.init(scaleX: targetHolderInitialScale, y: targetHolderInitialScale))
 
         targetHolderView = UIView(frame: rect)
         targetHolderView.center = center
@@ -505,7 +548,8 @@ extension MaterialShowcase {
         case .circle:
             targetHolderView.asCircle()
         case .roundedRect(let radius):
-            targetHolderView.setCornerRadius(radius * targetHolderInitialScale)
+            let scale = min(targetHolderXScale, targetHolderYScale)
+            targetHolderView.setCornerRadius(radius * scale)
         default:
             break
         }
