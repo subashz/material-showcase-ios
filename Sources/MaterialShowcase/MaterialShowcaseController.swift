@@ -72,7 +72,18 @@ open class MaterialShowcaseController {
     let numberOfShowcases = dataSource?.numberOfShowcases(for: self) ?? 0
     currentIndex += 1
     let showcase = dataSource?.materialShowcaseController(self, showcaseAt: currentIndex)
-    showcase?.delegate = self
+    showcase?.onWillDissmiss = { [weak self] showcase, _ in
+        guard let self = self else { return }
+        self.delegate?.materialShowcaseController(self, materialShowcaseWillDisappear: showcase, forIndex: self.currentIndex)
+    }
+    showcase?.onDidDissmiss = { [weak self] showcase, _ in
+        guard let self = self else { return }
+        self.delegate?.materialShowcaseController(self, materialShowcaseDidDisappear: showcase, forIndex: self.currentIndex)
+        self.currentShowcase = nil
+        if self.started {
+          self.nextShowcase()
+        }
+    }
     guard currentIndex < numberOfShowcases else {
       started = false
       currentIndex = -1
@@ -82,18 +93,3 @@ open class MaterialShowcaseController {
     showcase?.show(completion: nil)
   }
 }
-
-extension MaterialShowcaseController: MaterialShowcaseDelegate {
-  public func showCaseWillDismiss(showcase: MaterialShowcase, didTapTarget: Bool) {
-    delegate?.materialShowcaseController(self, materialShowcaseWillDisappear: showcase, forIndex: currentIndex)
-  }
-  
-  public func showCaseDidDismiss(showcase: MaterialShowcase, didTapTarget: Bool) {
-    delegate?.materialShowcaseController(self, materialShowcaseDidDisappear: showcase, forIndex: currentIndex)
-    currentShowcase = nil
-    if started {
-      self.nextShowcase()
-    }
-  }
-}
-
