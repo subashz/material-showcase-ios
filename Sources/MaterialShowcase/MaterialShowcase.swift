@@ -7,11 +7,6 @@
 //
 import UIKit
 
-@objc public protocol MaterialShowcaseDelegate: class {
-    @objc optional func showCaseWillDismiss(showcase: MaterialShowcase, didTapTarget: Bool)
-    @objc optional func showCaseDidDismiss(showcase: MaterialShowcase, didTapTarget: Bool)
-}
-
 open class MaterialShowcase: UIView {
   
     @objc public enum BackgroundTypeStyle: Int {
@@ -78,7 +73,9 @@ open class MaterialShowcase: UIView {
     var instructionView: MaterialShowcaseInstructionView!
 
     public var skipButton: (() -> Void)?
-    var onTapThrough: (() -> Void)?
+    public var onTapThrough: (() -> Void)?
+    public var onWillDissmiss: ((MaterialShowcase, Bool) -> Void)?
+    public var onDidDissmiss: ((MaterialShowcase, Bool) -> Void)?
   
     // MARK: Public Properties
     // Skip Button
@@ -133,8 +130,6 @@ open class MaterialShowcase: UIView {
     @objc public var aniRippleColor: UIColor!
     @objc public var aniRippleAlpha: CGFloat = 0.0
     @objc public var aniRippleInitialScale: CGFloat = 1.0
-    // Delegate
-    @objc public weak var delegate: MaterialShowcaseDelegate?
   
     public init() {
         // Create frame
@@ -659,9 +654,7 @@ extension MaterialShowcase {
     /// Default action when dimissing showcase
     /// Notifies delegate, removes views, and handles out-going animation
     @objc public func completeShowcase(animated: Bool = true, didTapTarget: Bool = false) {
-        if delegate != nil && delegate?.showCaseWillDismiss != nil {
-            delegate?.showCaseWillDismiss?(showcase: self, didTapTarget: didTapTarget)
-        }
+        onWillDissmiss?(self, didTapTarget)
         if animated {
             targetRippleView.removeFromSuperview()
             UIView.animateKeyframes(withDuration: aniGoOutDuration, delay: 0, options: [.calculationModeLinear], animations: {
@@ -685,9 +678,7 @@ extension MaterialShowcase {
             // Remove it from current screen
             self.removeFromSuperview()
         }
-        if delegate != nil && delegate?.showCaseDidDismiss != nil {
-            delegate?.showCaseDidDismiss?(showcase: self, didTapTarget: didTapTarget)
-        }
+        onDidDissmiss?(self, didTapTarget)
 
         if didTapTarget {
             onTapThrough?()
