@@ -644,6 +644,10 @@ extension MaterialShowcase {
             if xPosition + width > backgroundView.frame.size.width {
                 width = backgroundView.frame.size.width - xPosition - (LABEL_MARGIN * 2)
             }
+            if backgroundView.bounds.width > containerView.bounds.width {
+                let globalPoint = backgroundView.convert(.init(x: xPosition, y: 0), to: containerView)
+                width = UIScreen.main.bounds.width - (2 * globalPoint.x)
+            }
 
             //Updates horizontal parameters
             instructionView.frame = CGRect(x: xPosition,
@@ -655,7 +659,7 @@ extension MaterialShowcase {
             if getTargetPosition(target: targetView, container: containerView) == .above {
                 yPosition = (backgroundView.frame.size.height + targetHolderView.bounds.height) / 2 + INSTRUCTIONS_CENTER_OFFSET
             } else {
-                yPosition = (backgroundView.frame.size.height/2) - INSTRUCTIONS_CENTER_OFFSET - instructionView.frame.height
+                yPosition = (backgroundView.frame.size.height - targetHolderView.bounds.height) / 2 - INSTRUCTIONS_CENTER_OFFSET - instructionView.frame.height
             }
         } else {
             width = containerView.frame.size.width - (xPosition*2)
