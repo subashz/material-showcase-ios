@@ -32,6 +32,7 @@ public class MaterialShowcaseInstructionView: UIView {
   public var secondaryTextFont: UIFont?
   public var primaryTextAlignment: NSTextAlignment!
   public var secondaryTextAlignment: NSTextAlignment!
+  public var secondaryTextTopPadding: CGFloat = 0.0
   
   public init() {
     // Create frame
@@ -106,7 +107,7 @@ public class MaterialShowcaseInstructionView: UIView {
     secondaryLabel.numberOfLines = 0
     
     secondaryLabel.frame = CGRect(x: 0,
-                                  y: primaryLabel.frame.height,
+                                  y: primaryLabel.frame.height + secondaryTextTopPadding,
                                   width: frame.width,
                                   height: 0)
     secondaryLabel.sizeToFitHeight()
