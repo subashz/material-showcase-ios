@@ -482,7 +482,9 @@ extension MaterialShowcase {
             rect.origin.y -= targetHolderOffset
             rect.size.width *= targetHolderXScale
             rect.size.height *= targetHolderYScale
-            mutablePath.addRoundedRect(in: rect, cornerWidth: radius * targetHolderXScale, cornerHeight: radius * targetHolderYScale)
+            let cornerWidth = min(radius * targetHolderXScale, rect.width / 2)
+            let cornerHeight = min(radius * targetHolderYScale, rect.height / 2)
+            mutablePath.addRoundedRect(in: rect, cornerWidth: cornerWidth, cornerHeight: cornerHeight)
         case .rect:
             var rect = targetView.convert(targetView.bounds, to: view)
             rect.origin.x -= targetHolderOffset
