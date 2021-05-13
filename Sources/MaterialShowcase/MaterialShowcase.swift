@@ -653,9 +653,9 @@ extension MaterialShowcase {
             instructionView.layoutIfNeeded()
 
             if getTargetPosition(target: targetView, container: containerView) == .above {
-                yPosition = (backgroundView.frame.size.height/2) + TEXT_CENTER_OFFSET
+                yPosition = (backgroundView.frame.size.height + targetHolderView.bounds.height) / 2 + INSTRUCTIONS_CENTER_OFFSET
             } else {
-                yPosition = (backgroundView.frame.size.height/2) - TEXT_CENTER_OFFSET - instructionView.frame.height
+                yPosition = (backgroundView.frame.size.height/2) - INSTRUCTIONS_CENTER_OFFSET - instructionView.frame.height
             }
         } else {
             width = containerView.frame.size.width - (xPosition*2)
