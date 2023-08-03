@@ -615,9 +615,9 @@ extension MaterialShowcase {
         instructionView.secondaryTextColor = secondaryTextColor
         instructionView.secondaryText = secondaryText
         instructionView.secondaryTextTopPadding = secondaryTextTopPadding
-
+        
         instructionView.thirdAttributedText = thirdAttributedText
-
+        
         // Calculate x position
         var xPosition = LABEL_MARGIN
 

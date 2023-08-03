@@ -155,13 +155,8 @@ public class MaterialShowcaseInstructionView: UIView {
 //        thirdLabel.layer.borderColor = UIColor.white.cgColor
         
         
- 
-
-        
         //thirdLabel.text = secondaryText
         thirdLabel.numberOfLines = 2
-        
-        
         
       
         thirdLabel.frame = CGRect(x: 0,
