@@ -9,44 +9,28 @@
 import Foundation
 import UIKit
 
-@IBDesignable
-class PaddingLabel: UILabel {
-    var textEdgeInsets = UIEdgeInsets.zero {
-        didSet { invalidateIntrinsicContentSize() }
-    }
-    
-    open override func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
-        let insetRect = bounds.inset(by: textEdgeInsets)
-        let textRect = super.textRect(forBounds: insetRect, limitedToNumberOfLines: numberOfLines)
-        let invertedInsets = UIEdgeInsets(top: -textEdgeInsets.top, left: -textEdgeInsets.left, bottom: -textEdgeInsets.bottom, right: -textEdgeInsets.right)
-        return textRect.inset(by: invertedInsets)
-    }
-    
+@IBDesignable class PaddingLabel: UILabel {
+
+    @IBInspectable var topInset: CGFloat = 8.0
+    @IBInspectable var bottomInset: CGFloat = 8.0
+    @IBInspectable var leftInset: CGFloat = 12.0
+    @IBInspectable var rightInset: CGFloat = 12.0
+
     override func drawText(in rect: CGRect) {
-        super.drawText(in: rect.inset(by: textEdgeInsets))
+        let insets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
+        super.drawText(in: rect.inset(by: insets))
     }
-    
-    @IBInspectable
-    var paddingLeft: CGFloat {
-        set { textEdgeInsets.left = newValue }
-        get { return textEdgeInsets.left }
+
+    override var intrinsicContentSize: CGSize {
+        let size = super.intrinsicContentSize
+        return CGSize(width: size.width + leftInset + rightInset,
+                      height: size.height + topInset + bottomInset)
     }
-    
-    @IBInspectable
-    var paddingRight: CGFloat {
-        set { textEdgeInsets.right = newValue }
-        get { return textEdgeInsets.right }
-    }
-    
-    @IBInspectable
-    var paddingTop: CGFloat {
-        set { textEdgeInsets.top = newValue }
-        get { return textEdgeInsets.top }
-    }
-    
-    @IBInspectable
-    var paddingBottom: CGFloat {
-        set { textEdgeInsets.bottom = newValue }
-        get { return textEdgeInsets.bottom }
+
+    override var bounds: CGRect {
+        didSet {
+            // ensures this works within stack views if multi-line
+            preferredMaxLayoutWidth = bounds.width - (leftInset + rightInset)
+        }
     }
 }
