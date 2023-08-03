@@ -142,6 +142,12 @@ public class MaterialShowcaseInstructionView: UIView {
             thirdLabel.text=""
         }
         
+        // label 5
+        thirdLabel.layer.cornerRadius = 8
+        thirdLabel.layer.masksToBounds = true
+        thirdLabel.layer.borderWidth = 2.0
+        thirdLabel.layer.borderColor = UIColor.white.cgColor
+        
         //thirdLabel.text = secondaryText
         thirdLabel.numberOfLines = 0
       
