@@ -20,7 +20,7 @@ public class MaterialShowcaseInstructionView: UIView {
   
   public var primaryLabel: UILabel!
   public var secondaryLabel: UILabel!
-  var thirdLabel: PaddingLabel!
+  var thirdLabel: UILabel!
 
   public var thirdAttributedText: NSAttributedString?
   
@@ -124,7 +124,7 @@ public class MaterialShowcaseInstructionView: UIView {
           thirdLabel.removeFromSuperview()
       }
       
-        thirdLabel = PaddingLabel()
+        thirdLabel = UILabel()
       if let font = secondaryTextFont {
           thirdLabel.font = font
       } else {
@@ -142,10 +142,10 @@ public class MaterialShowcaseInstructionView: UIView {
             thirdLabel.text=""
         }
         
-        thirdLabel.paddingLeft = 15
-        thirdLabel.paddingRight = 15
-        thirdLabel.paddingTop = 8
-        thirdLabel.paddingBottom = 8
+//        thirdLabel.paddingLeft = 15
+//        thirdLabel.paddingRight = 15
+//        thirdLabel.paddingTop = 8
+//        thirdLabel.paddingBottom = 8
         
         // label 5
         thirdLabel.layer.cornerRadius = 8
@@ -164,7 +164,9 @@ public class MaterialShowcaseInstructionView: UIView {
                                     width: frame.width,
                                     height: 0)
         thirdLabel.sizeToFitHeight()
-      addSubview(thirdLabel)
+        
+        addSubview(thirdLabel)
+        
         frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: primaryLabel.frame.height + secondaryLabel.frame.height + thirdLabel.frame.height)
     }
   
