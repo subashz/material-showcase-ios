@@ -159,7 +159,10 @@ public class MaterialShowcaseInstructionView: UIView {
 
         
         //thirdLabel.text = secondaryText
-        thirdLabel.numberOfLines = 0
+        thirdLabel.numberOfLines = 2
+        
+        
+        
       
         thirdLabel.frame = CGRect(x: 0,
                                   y: primaryLabel.frame.height + secondaryTextTopPadding + secondaryLabel.frame.height,
