@@ -20,7 +20,7 @@ public class MaterialShowcaseInstructionView: UIView {
   
   public var primaryLabel: UILabel!
   public var secondaryLabel: UILabel!
-  var thirdLabel: UILabel!
+  var thirdLabel: PaddedAndBorderedLabel!
 
   public var thirdAttributedText: NSAttributedString?
   
@@ -70,7 +70,7 @@ public class MaterialShowcaseInstructionView: UIView {
       primaryLabel.removeFromSuperview()
     }
     
-    primaryLabel = PaddedAndBorderedLabel()
+    primaryLabel = UILabel()
     
     if let font = primaryTextFont {
       primaryLabel.font = font
