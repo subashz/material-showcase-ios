@@ -20,7 +20,7 @@ public class MaterialShowcaseInstructionView: UIView {
   
   public var primaryLabel: UILabel!
   public var secondaryLabel: UILabel!
-  public var thirdLabel: PaddedAndBorderedLabel!
+   var thirdLabel: PaddedAndBorderedLabel!
 
   public var thirdAttributedText: NSAttributedString?
   
@@ -163,7 +163,7 @@ public class MaterialShowcaseInstructionView: UIView {
                                   y: primaryLabel.frame.height + secondaryTextTopPadding + secondaryLabel.frame.height,
                                     width: frame.width,
                                     height: 0)
-        thirdLabel.sizeToFitHeight()
+       // thirdLabel.sizeToFitHeight()
         
         addSubview(thirdLabel)
         

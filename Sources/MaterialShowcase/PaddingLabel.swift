@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 import UIKit
-  
-@IBDesignable public class PaddedAndBorderedLabel: UILabel {
+
+@IBDesignable class PaddedAndBorderedLabel: UILabel {
 
       @IBInspectable var topInset: CGFloat = 5.0
       @IBInspectable var bottomInset: CGFloat = 5.0
