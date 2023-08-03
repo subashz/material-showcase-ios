@@ -70,7 +70,7 @@ public class MaterialShowcaseInstructionView: UIView {
       primaryLabel.removeFromSuperview()
     }
     
-    primaryLabel = UILabel()
+    primaryLabel = PaddedAndBorderedLabel()
     
     if let font = primaryTextFont {
       primaryLabel.font = font
@@ -124,8 +124,9 @@ public class MaterialShowcaseInstructionView: UIView {
           thirdLabel.removeFromSuperview()
       }
       
-        thirdLabel = UILabel()
-      if let font = secondaryTextFont {
+      thirdLabel = PaddedAndBorderedLabel()
+      
+        if let font = secondaryTextFont {
           thirdLabel.font = font
       } else {
           thirdLabel.font = UIFont.systemFont(ofSize: secondaryTextSize)
@@ -148,10 +149,11 @@ public class MaterialShowcaseInstructionView: UIView {
 //        thirdLabel.paddingBottom = 8
         
         // label 5
-        thirdLabel.layer.cornerRadius = 8
-        thirdLabel.layer.masksToBounds = true
-        thirdLabel.layer.borderWidth = 1.0
-        thirdLabel.layer.borderColor = UIColor.white.cgColor
+//        thirdLabel.layer.cornerRadius = 8
+//        thirdLabel.layer.masksToBounds = true
+//        thirdLabel.layer.borderWidth = 1.0
+//        thirdLabel.layer.borderColor = UIColor.white.cgColor
+        
         
  
 
