@@ -617,7 +617,8 @@ extension MaterialShowcase {
         instructionView.secondaryTextTopPadding = secondaryTextTopPadding
         
         instructionView.thirdAttributedText = thirdAttributedText
-        
+        instructionView.thirdLabel.sizeToFitHeight()
+      
         // Calculate x position
         var xPosition = LABEL_MARGIN
 

@@ -20,7 +20,7 @@ public class MaterialShowcaseInstructionView: UIView {
   
   public var primaryLabel: UILabel!
   public var secondaryLabel: UILabel!
-  var thirdLabel: PaddedAndBorderedLabel!
+  public var thirdLabel: PaddedAndBorderedLabel!
 
   public var thirdAttributedText: NSAttributedString?
   
@@ -149,10 +149,10 @@ public class MaterialShowcaseInstructionView: UIView {
 //        thirdLabel.paddingBottom = 8
         
         // label 5
-//        thirdLabel.layer.cornerRadius = 8
-//        thirdLabel.layer.masksToBounds = true
-//        thirdLabel.layer.borderWidth = 1.0
-//        thirdLabel.layer.borderColor = UIColor.white.cgColor
+        thirdLabel.layer.cornerRadius = 8
+        thirdLabel.layer.masksToBounds = true
+        thirdLabel.layer.borderWidth = 1.0
+        thirdLabel.layer.borderColor = UIColor.white.cgColor
         
         
         //thirdLabel.text = secondaryText
