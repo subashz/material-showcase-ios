@@ -20,6 +20,9 @@ public class MaterialShowcaseInstructionView: UIView {
   
   public var primaryLabel: UILabel!
   public var secondaryLabel: UILabel!
+  public var thirdLabel: UILabel!
+
+  public var thirdAttributedText: NSAttributedString?
   
   // Text
   public var primaryText: String!
@@ -115,6 +118,41 @@ public class MaterialShowcaseInstructionView: UIView {
     frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: primaryLabel.frame.height + secondaryLabel.frame.height)
   }
   
+    /// Configures and adds secondary label view
+    private func addThirdLabel() {
+      if thirdLabel != nil {
+          thirdLabel.removeFromSuperview()
+      }
+      
+        thirdLabel = UILabel()
+      if let font = secondaryTextFont {
+          thirdLabel.font = font
+      } else {
+          thirdLabel.font = UIFont.systemFont(ofSize: secondaryTextSize)
+      }
+        thirdLabel.textColor = secondaryTextColor
+        thirdLabel.textAlignment = self.secondaryTextAlignment ?? .left
+        thirdLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+        
+        //thirdLabel.attributedText = thirdAttributedText
+        
+        if let thirdAttributedText = thirdAttributedText {
+            thirdLabel.attributedText = thirdAttributedText
+        } else {
+            thirdLabel.text=""
+        }
+        
+        //thirdLabel.text = secondaryText
+        thirdLabel.numberOfLines = 0
+      
+        thirdLabel.frame = CGRect(x: 0,
+                                  y: primaryLabel.frame.height + secondaryTextTopPadding + secondaryLabel.frame.height,
+                                    width: frame.width,
+                                    height: 0)
+        thirdLabel.sizeToFitHeight()
+      addSubview(thirdLabel)
+        frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: primaryLabel.frame.height + secondaryLabel.frame.height + thirdLabel.frame.height)
+    }
   
   /// Overrides this to add subviews. They will be drawn when calling show()
   public override func layoutSubviews() {
@@ -122,6 +160,7 @@ public class MaterialShowcaseInstructionView: UIView {
     
     addPrimaryLabel()
     addSecondaryLabel()
+    addThirdLabel()
     
     subviews.forEach({$0.isUserInteractionEnabled = false})
   }

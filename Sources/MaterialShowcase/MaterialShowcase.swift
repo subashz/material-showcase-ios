@@ -121,6 +121,8 @@ open class MaterialShowcase: UIView {
         }
     }
     // Text
+  
+    @objc public var thirdAttributedText: NSAttributedString?
     @objc public var primaryText: String!
     @objc public var secondaryText: String!
     @objc public var primaryTextColor: UIColor!
@@ -613,6 +615,8 @@ extension MaterialShowcase {
         instructionView.secondaryTextColor = secondaryTextColor
         instructionView.secondaryText = secondaryText
         instructionView.secondaryTextTopPadding = secondaryTextTopPadding
+
+        instructionView.thirdAttributedText = thirdAttributedText
 
         // Calculate x position
         var xPosition = LABEL_MARGIN
