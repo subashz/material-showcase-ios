@@ -13,6 +13,7 @@ public class MaterialShowcaseInstructionView: UIView {
   
   internal static let PRIMARY_TEXT_SIZE: CGFloat = 20
   internal static let SECONDARY_TEXT_SIZE: CGFloat = 15
+    internal static let THIRD_TEXT_SIZE: CGFloat = 12
   internal static let PRIMARY_TEXT_COLOR = UIColor.white
   internal static let SECONDARY_TEXT_COLOR = UIColor.white.withAlphaComponent(0.87)
   internal static let PRIMARY_DEFAULT_TEXT = "Awesome action"
@@ -110,7 +111,7 @@ public class MaterialShowcaseInstructionView: UIView {
     secondaryLabel.numberOfLines = 0
     
     secondaryLabel.frame = CGRect(x: 0,
-                                  y: primaryLabel.frame.height + secondaryTextTopPadding,
+                                  y: primaryLabel.frame.height + secondaryTextTopPadding + 8,
                                   width: frame.width,
                                   height: 0)
     secondaryLabel.sizeToFitHeight()
@@ -129,7 +130,7 @@ public class MaterialShowcaseInstructionView: UIView {
         if let font = secondaryTextFont {
           thirdLabel.font = font
       } else {
-          thirdLabel.font = UIFont.systemFont(ofSize: secondaryTextSize)
+          thirdLabel.font = UIFont.systemFont(ofSize: 12)
       }
         thirdLabel.textColor = secondaryTextColor
         thirdLabel.textAlignment = self.secondaryTextAlignment ?? .left
