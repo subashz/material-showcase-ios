@@ -111,7 +111,7 @@ public class MaterialShowcaseInstructionView: UIView {
     secondaryLabel.numberOfLines = 0
     
     secondaryLabel.frame = CGRect(x: 0,
-                                  y: primaryLabel.frame.height + secondaryTextTopPadding + 8,
+                                  y: primaryLabel.frame.height + secondaryTextTopPadding ,
                                   width: frame.width,
                                   height: 0)
     secondaryLabel.sizeToFitHeight()
@@ -164,7 +164,7 @@ public class MaterialShowcaseInstructionView: UIView {
         
       
         thirdLabel.frame = CGRect(x: 0,
-                                  y: primaryLabel.frame.height + secondaryTextTopPadding + secondaryLabel.frame.height,
+                                  y: primaryLabel.frame.height + secondaryTextTopPadding + secondaryLabel.frame.height + 8,
                                     width: frame.width,
                                     height: 0)
         
