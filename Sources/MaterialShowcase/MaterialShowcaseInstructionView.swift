@@ -113,7 +113,7 @@ public class MaterialShowcaseInstructionView: UIView {
     secondaryLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
     //secondaryLabel.text = secondaryText
       
-    secondaryLable.text =   NSLocalizedString(secondaryText, comment: "")
+      secondaryLabel.text =   NSLocalizedString(secondaryText, comment: "")
 
     secondaryLabel.numberOfLines = 0
     
