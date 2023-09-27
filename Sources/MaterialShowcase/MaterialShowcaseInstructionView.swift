@@ -82,7 +82,11 @@ public class MaterialShowcaseInstructionView: UIView {
     primaryLabel.textAlignment = self.primaryTextAlignment ?? .left
     primaryLabel.numberOfLines = 0
     primaryLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
-    primaryLabel.text = primaryText
+    //primaryLabel.text = primaryText
+      
+      primaryLabel.text =   NSLocalizedString(primaryText, comment: "")
+
+      
     primaryLabel.frame = CGRect(x: 0,
                                 y: 0,
                                 width: frame.width,
@@ -107,7 +111,10 @@ public class MaterialShowcaseInstructionView: UIView {
     secondaryLabel.textColor = secondaryTextColor
     secondaryLabel.textAlignment = self.secondaryTextAlignment ?? .left
     secondaryLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
-    secondaryLabel.text = secondaryText
+    //secondaryLabel.text = secondaryText
+      
+    secondaryLable.text =   NSLocalizedString(secondaryText, comment: "")
+
     secondaryLabel.numberOfLines = 0
     
     secondaryLabel.frame = CGRect(x: 0,
